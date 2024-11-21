@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulador de Governo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Governo</h1>
+        <h2 class="subtitle">Baseado nos ideais de Rousseau</h2>
+        
+        <!-- Tela de Seleção de Jogadores -->
+        <div class="player-selection">
+            <h2>Selecione os Jogadores</h2>
+            <div id="playerInputs">
+                <div class="player">
+                    <label for="player1Name">Jogador 1:</label>
+                    <input type="text" id="player1Name" placeholder="Nome do Jogador 1">
+                </div>
+                <div class="player">
+                    <label for="player2Name">Jogador 2:</label>
+                    <input type="text" id="player2Name" placeholder="Nome do Jogador 2">
+                </div>
+                <div class="player">
+                    <label for="player3Name">Jogador 3:</label>
+                    <input type="text" id="player3Name" placeholder="Nome do Jogador 3">
+                </div>
+                <div class="player">
+                    <label for="player4Name">Jogador 4:</label>
+                    <input type="text" id="player4Name" placeholder="Nome do Jogador 4">
+                </div>
+                <div class="player">
+                    <label for="player5Name">Jogador 5:</label>
+                    <input type="text" id="player5Name" placeholder="Nome do Jogador 5">
+                </div>
+            </div>
+            
+            <!-- Seleção de Dificuldade com Ícone Informativo -->
+            <div class="difficulty-selection">
+                <h2>Escolha a Dificuldade</h2>
+                <div class="difficulty-wrapper">
+                    <select id="difficultyLevel">
+                        <option value="">Selecione a Dificuldade</option>
+                        <option value="easy">Fácil</option>
+                        <option value="medium">Médio</option>
+                        <option value="hard">Difícil</option>
+                    </select>
+                    <button id="difficultyInfoButton" class="info-button" title="Clique para mais informações">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="startGameButton">Iniciar Jogo</button>
+            <button id="tutorialButton">Tutorial</button>
+        </div>
+
+        <!-- Modal de Informações da Dificuldade -->
+        <div class="modal" id="difficultyModal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button" id="closeDifficultyModal">&times;</span>
+                <h3>Informações sobre a Dificuldade</h3>
+                <p>A dificuldade define a quantidade de eventos aleatórios e o tempo que eles aparecem no jogo.</p>
+                <p><strong>Fácil:</strong> Menor quantidade de eventos e tempo maior para decidir.</p>
+                <p><strong>Médio:</strong> Quantidade e tempo moderados.</p>
+                <p><strong>Difícil:</strong> Maior quantidade de eventos e tempo reduzido para decidir.</p>
+                <p>Exemplos de Eventos:</p>
+                <ul>
+                    <li>Crise econômica inesperada!</li>
+                    <li>Protestos generalizados por melhorias nos serviços públicos.</li>
+                    <li>Descoberta de corrupção em uma grande corporação estatal.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Modal de Tutorial -->
+        <div class="modal" id="tutorialModal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button" id="closeTutorialModal">&times;</span>
+                <h3>Tutorial</h3>
+                
+                <b></b> <!-- Espaçamento entre os tópicos -->
+
+                <h2>Objetivo do Jogo</h2>
+                <p>Os jogadores assumem diferentes papéis na sociedade e interagem para moldar o futuro de um país. O objetivo principal é alcançar o melhor mandato possível como Presidente, equilibrando indicadores sociais, econômicos, midiáticos e de reputação. Outros jogadores têm metas próprias que podem entrar em conflito ou se alinhar com os interesses do Presidente.</p>
+                
+                <b></b> <!-- Espaçamento entre os tópicos -->
+
+                <h2>Configuração do Jogo</h2>
+                <h2>Jogadores e Papéis:</h2>
+                <ul>
+                    <li><strong>Presidente:</strong> Governante que toma decisões estratégicas.</li>
+                    <li><strong>Cidadão Humilde:</strong> Representa a população de baixa renda.</li>
+                    <li><strong>Cidadão Rico:</strong> Representa a elite econômica.</li>
+                    <li><strong>Economista:</strong> Cuida da saúde financeira do país.</li>
+                    <li><strong>Mídia:</strong> Controla a narrativa e influência pública.</li>
+                </ul>
+                
+                <h2>Indicadores do Mandato:</h2>
+                <ul>
+                    <li><strong>Economia:</strong> Saúde financeira geral do país.</li>
+                    <li><strong>Pessoas:</strong> Bem-estar social.</li>
+                    <li><strong>Mídia:</strong> Apoio midiático e narrativas públicas.</li>
+                    <li><strong>Reputação Local:</strong> Apoio dentro do país.</li>
+                    <li><strong>Reputação Internacional:</strong> Percepção global.</li>
+                </ul>
+                
+                <h2>Itens e Cartas Especiais:</h2>
+                <p>Cada jogador, exceto o Presidente, possui um "poder especial" que pode ser ativado dependendo das circunstâncias.</p>
+                
+                <h2>Fluxo do Jogo (Atualizado)</h2>
+                <h2>1. Rodada de Perguntas (Cartas):</h2>
+                <ul>
+                    <li>Cada jogador (exceto o Presidente) começa a rodada com 3 cartas de pergunta.</li>
+                    <li>Cada carta contém uma pergunta temática que representa as demandas ou interesses do personagem.</li>
+                    <li>As perguntas podem impactar os indicadores de forma positiva ou negativa dependendo da resposta do Presidente.</li>
+                    <li>Na sua vez, o jogador escolhe uma das cartas para jogar, lê a pergunta em voz alta e entrega ao Presidente.</li>
+                    <li><strong>Exemplo de cartas:</strong></li>
+                    <ul>
+                        <li><strong>Cidadão Humilde:</strong> "O salário mínimo será aumentado este ano?"</li>
+                        <li><strong>Cidadão Rico:</strong> "Haverá cortes em tributos para grandes empresas?"</li>
+                        <li><strong>Economista:</strong> "Será implementada uma nova política de redução de juros?"</li>
+                        <li><strong>Mídia:</strong> "Como o governo pretende responder às críticas internacionais?"</li>
+                    </ul>
+                    <li>Após jogar uma carta, o jogador descarta as outras, e no início da próxima rodada, recebe 3 novas cartas aleatórias.</li>
+                </ul>
+                
+                <h2>2. Decisão Presidencial:</h2>
+                <ul>
+                    <li>O Presidente lê as perguntas e decide como responder:</li>
+                    <ul>
+                        <li><strong>Aceitar:</strong> Implementa a proposta ou política solicitada pela carta.</li>
+                        <li><strong>Recusar:</strong> Rejeita a proposta, o que pode gerar impactos negativos para o autor da pergunta ou outros indicadores.</li>
+                    </ul>
+                    <li>As decisões devem ser estratégicas, considerando os efeitos nos indicadores do mandato.</li>
+                </ul>
+                
+                <h2>3. Atualização dos Indicadores:</h2>
+                <ul>
+                    <li>Após o Presidente responder a todas as perguntas, os efeitos das respostas são aplicados nos indicadores:</li>
+                    <ul>
+                        <li>Melhoras ou quedas em Economia, Pessoas, Mídia, Reputação Local ou Reputação Internacional.</li>
+                        <li>As consequências são baseadas nas escolhas feitas e no alinhamento dos interesses do jogador que fez a pergunta.</li>
+                    </ul>
+                </ul>
+                
+                <h2>Condições de Vitória e Derrota</h2>
+                <h2>Presidente:</h2>
+                <ul>
+                    <li><strong>Vitória:</strong> Um indicador atinge 100% ou conclui o mandato com todos os indicadores acima do nível crítico.</li>
+                    <li><strong>Derrota:</strong> Dois indicadores atingem níveis críticos, resultando em impeachment.</li>
+                </ul>
+                
+                <h2>Demais Jogadores:</h2>
+                <ul>
+                    <li><strong>Vitória:</strong> Se o Presidente adotar políticas que maximizem seus interesses.</li>
+                    <li><strong>Derrota:</strong> Se o Presidente concluir o mandato ignorando suas demandas principais.</li>
+                </ul>
+                
+                <h2>Dicas Estratégicas</h2>
+                <h2>Presidente:</h2>
+                <ul>
+                    <li>Equilibre as demandas dos jogadores. Atenda parcialmente todos sem favorecer demais um grupo.</li>
+                    <li>Use os poderes especiais apenas quando necessário, pois eles podem causar instabilidade.</li>
+                </ul>
+                
+                <h2>Demais Jogadores:</h2>
+                <ul>
+                    <li>Formem alianças estratégicas para pressionar o Presidente, mas mantenham seus interesses individuais como prioridade.</li>
+                    <li>Use o poder especial no momento ideal para maximizar o impacto.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Tela de Sorteio das Funções -->
+        <div class="role-assignment" style="display: none;">
+            <h2>Sorteio das Funções</h2>
+            <div id="rolesDisplay">
+                <!-- Funções serão exibidas aqui -->
+            </div>
+            <button id="proceedToGameButton" style="display: none;">Prosseguir</button>
+        </div>
+
+        <!-- Seção do Jogo -->
+        <div class="game-area" style="display: none;">
+            <div class="score-and-round">
+                <!-- Exibir a pontuação -->
+                <div class="score-display">
+                    <span>Pontuação: <span id="score">0</span></span>
+                </div>
+
+                <div class="round-info">
+                    <span>Mandato: <span id="currentRound">1</span>/<span id="totalRounds">4</span></span>
+                </div>
+            </div>
+
+            <div class="status-bars">
+                <div class="status-bar">
+                    <label><i class="fas fa-users"></i> População</label>
+                    <progress id="populacao" value="50" max="100"></progress>
+                    <span class="progress-value" id="populacaoValue">50</span>
+                </div>
+                <div class="status-bar">
+                    <label><i class="fas fa-chart-line"></i> Economia</label>
+                    <progress id="economia" value="50" max="100"></progress>
+                    <span class="progress-value" id="economiaValue">50</span>
+                </div>
+                <div class="status-bar">
+                    <label><i class="fas fa-globe"></i> Internacional</label>
+                    <progress id="reputacaoInternacional" value="50" max="100"></progress>
+                    <span class="progress-value" id="reputacaoInternacionalValue">50</span>
+                </div>
+                <div class="status-bar">
+                    <label><i class="fas fa-newspaper"></i> Reputação (Mídia)</label>
+                    <progress id="reputacaoMidia" value="50" max="100"></progress>
+                    <span class="progress-value" id="reputacaoMidiaValue">50</span>
+                </div>
+                <div class="status-bar">
+                    <label><i class="fas fa-city"></i> Reputação Local</label>
+                    <progress id="reputacaoLocal" value="50" max="100"></progress>
+                    <span class="progress-value" id="reputacaoLocalValue">50</span>
+                </div>
+            </div>
+
+            <div class="current-turn">
+                <span>Vez de: <span id="currentPlayer">[Nome do Jogador]</span></span>
+            </div>
+
+            <!-- Seção de Seleção de Perguntas -->
+            <div class="question-section">
+                <h3>Selecione sua Pergunta:</h3>
+                <div id="questionList">
+                    <!-- Perguntas serão geradas dinamicamente aqui -->
+                </div>
+                <button id="confirmSelectionButton" style="display: none;">Confirmar Seleção</button>
+            </div>
+
+            <!-- Seção de Decisão do Presidente -->
+            <div class="decision-section" id="decisionSection" style="display: none;">
+                <h3>Presidente, decida para cada pergunta:</h3>
+                <div class="decisions-container" id="decisionsContainer">
+                    <!-- Decisões do presidente serão inseridas aqui -->
+                </div>
+            </div>
+
+            <!-- Seção de Feedback das Decisões -->
+            <div class="feedback" id="feedback" style="display: none;">
+                <div id="feedbackMessage"></div>
+                <hr class="white-line">
+                <div class="feedback-bars">
+                    <div class="feedback-bar">
+                        <span>População:</span>
+                        <span id="popChange"></span>
+                    </div>
+                    <div class="feedback-bar">
+                        <span>Economia:</span>
+                        <span id="econChange"></span>
+                    </div>
+                    <div class="feedback-bar">
+                        <span>Internacional:</span>
+                        <span id="repInternacionalChange"></span>
+                    </div>
+                    <div class="feedback-bar">
+                        <span>Reputação (Mídia):</span>
+                        <span id="repMidiaChange"></span>
+                    </div>
+                    <div class="feedback-bar">
+                        <span>Reputação Local:</span>
+                        <span id="repLocalChange"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Histórico de Decisões -->
+            <div class="history" id="history">
+                <h2>Histórico de Decisões</h2>
+                <!-- Botões para alternar entre histórico de eventos e decisões -->
+                <div class="history-buttons">
+                    <button id="showDecisionHistory">Histórico de Decisões</button>
+                    <button id="showEventHistory">Histórico de Eventos</button>
+                </div>
+                <!-- Histórico de Decisões -->
+                <div id="decisionHistory" class="history-content">
+                    <h3>Perguntas</h3>
+                    <ul id="historyList">
+                        <!-- Itens do histórico de perguntas serão adicionados aqui -->
+                    </ul>
+                </div>
+                <!-- Histórico de Eventos -->
+                <div id="eventHistory" class="history-content" style="display: none;">
+                    <h3>Eventos</h3>
+                    <ul id="eventHistoryList">
+                        <!-- Itens do histórico de eventos serão adicionados aqui -->
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="white-line">
+
+            <!-- Seção de Gráficos de Evolução das Métricas -->
+            <div class="impact-chart-section">
+                <h2 class="section-title">Evolução das Métricas</h2>
+                <canvas id="evolutionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Seção de Fim de Jogo -->
+        <div class="end-game" style="display: none;">
+            <h2>Fim do Mandato</h2>
+            <div id="endMessage"></div>
+            <img id="endImage" src="" alt="Fim do Jogo" class="end-image">
+            <button id="restartButton">Reiniciar Jogo</button>
+        </div>
+    </div>
+
+    <!-- Modal para Eventos Aleatórios -->
+    <div class="modal" id="eventModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button" id="closeEventModal">&times;</span>
+            <h3 id="eventTitle">Evento Especial</h3>
+            <div id="eventDescription"></div>
+            <div class="event-buttons">
+                <button id="eventAcceptButton" class="event-accept">Aceitar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Descrições das Funções -->
+    <div class="modal" id="roleDescriptionModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button" id="closeRoleDescriptionModal">&times;</span>
+            <h3 id="roleDescriptionTitle">Descrição da Função</h3>
+            <div id="roleDescriptionContent"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="questions.js"></script> <!-- Carregado primeiro -->
+    <script src="script.js"></script> <!-- Carregado depois -->
+</body>
+</html>
