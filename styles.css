@@ -114,9 +114,10 @@ button#tutorialButton {
     background: none;
     border: none;
     color: #FFD700;
-    font-size: 1.2em; /* Ajuste o tamanho conforme necessário */
+    font-size: 1em; /* Ajuste o tamanho conforme necessário */
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
+    padding-bottom: 35px;
 }
 
 .info-button:hover {
@@ -137,6 +138,25 @@ button#tutorialButton {
 
 .descricao-button:hover {
     color: #DAA520;
+}
+
+/* Centralizar o botão de Confirmar Seleção */
+#confirmSelectionButton {
+    display: block;
+    margin: 20px auto 0 auto; /* Centraliza horizontalmente e adiciona margem superior */
+    padding: 10px 30px;
+    background-color: #FFD700;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#confirmSelectionButton:hover {
+    background-color: #DAA520; /* Dourado escuro */
+    transform: scale(1.05);
 }
 
 /* Barras de Status */
@@ -177,7 +197,7 @@ button#tutorialButton {
 
 .difficulty-wrapper select {
     flex: 1; /* Faz com que o seletor ocupe o máximo de espaço possível */
-    max-width: 250px; /* Define uma largura máxima */
+    max-width: 220px; /* Define uma largura máxima */
 }
 
 /* Progress Bars */
@@ -217,8 +237,8 @@ progress::-webkit-progress-value {
     background-color: #f1c40f; /* Amarelo */
 }
 
-#reputacaoLocal::-webkit-progress-value {
-    background-color: #9b59b6; /* Roxo */
+#vontadeGeral::-webkit-progress-value {
+    background-color: #e67e22; /* Laranja */
 }
 
 .progress-value {
@@ -842,7 +862,7 @@ progress::-webkit-progress-value {
     }
 
     .info-button {
-        font-size: 1em; /* Reduzido ainda mais em telas menores */
+        font-size: 0.8em; /* Reduzido ainda mais em telas menores */
     }
 }
 
@@ -888,4 +908,12 @@ progress::-webkit-progress-value {
     .history h3 {
         font-size: 1em;
     }
+}
+
+/* Adicionar espaçamento entre seções no tutorial */
+#tutorialModal .modal-content h2,
+#tutorialModal .modal-content h3,
+#tutorialModal .modal-content p,
+#tutorialModal .modal-content ul {
+    margin-top: 20px; /* Ajuste o valor conforme necessário */
 }

@@ -81,16 +81,16 @@
         <div class="modal" id="tutorialModal" style="display: none;">
             <div class="modal-content">
                 <span class="close-button" id="closeTutorialModal">&times;</span>
-                <h3>Tutorial</h3>
+                <h3><i class="fas fa-book-open"></i> Tutorial</h3>
                 
-                <b></b> <!-- Espaçamento entre os tópicos -->
+                <br> <!-- Espaçamento adicional -->
 
-                <h2>Objetivo do Jogo</h2>
+                <h2><i class="fas fa-bullseye"></i> Objetivo do Jogo</h2>
                 <p>Os jogadores assumem diferentes papéis na sociedade e interagem para moldar o futuro de um país. O objetivo principal é alcançar o melhor mandato possível como Presidente, equilibrando indicadores sociais, econômicos, midiáticos e de reputação. Outros jogadores têm metas próprias que podem entrar em conflito ou se alinhar com os interesses do Presidente.</p>
                 
-                <b></b> <!-- Espaçamento entre os tópicos -->
+                <br> <!-- Espaçamento adicional -->
 
-                <h2>Configuração do Jogo</h2>
+                <h2><i class="fas fa-cogs"></i> Configuração do Jogo</h2>
                 <h2>Jogadores e Papéis:</h2>
                 <ul>
                     <li><strong>Presidente:</strong> Governante que toma decisões estratégicas.</li>
@@ -100,17 +100,23 @@
                     <li><strong>Mídia:</strong> Controla a narrativa e influência pública.</li>
                 </ul>
                 
+                <br> <!-- Espaçamento adicional -->
+
                 <h2>Indicadores do Mandato:</h2>
                 <ul>
                     <li><strong>Economia:</strong> Saúde financeira geral do país.</li>
                     <li><strong>Pessoas:</strong> Bem-estar social.</li>
                     <li><strong>Mídia:</strong> Apoio midiático e narrativas públicas.</li>
-                    <li><strong>Reputação Local:</strong> Apoio dentro do país.</li>
+                    <li><strong>Vontade Geral:</strong> Quão bem você segue os ideais de Rousseau.</li>
                     <li><strong>Reputação Internacional:</strong> Percepção global.</li>
                 </ul>
                 
+                <br> <!-- Espaçamento adicional -->
+
                 <h2>Itens e Cartas Especiais:</h2>
                 <p>Cada jogador, exceto o Presidente, possui um "poder especial" que pode ser ativado dependendo das circunstâncias.</p>
+                
+                <br> <!-- Espaçamento adicional -->
                 
                 <h2>Fluxo do Jogo (Atualizado)</h2>
                 <h2>1. Rodada de Perguntas (Cartas):</h2>
@@ -129,6 +135,8 @@
                     <li>Após jogar uma carta, o jogador descarta as outras, e no início da próxima rodada, recebe 3 novas cartas aleatórias.</li>
                 </ul>
                 
+                <br> <!-- Espaçamento adicional -->
+                
                 <h2>2. Decisão Presidencial:</h2>
                 <ul>
                     <li>O Presidente lê as perguntas e decide como responder:</li>
@@ -139,14 +147,18 @@
                     <li>As decisões devem ser estratégicas, considerando os efeitos nos indicadores do mandato.</li>
                 </ul>
                 
+                <br> <!-- Espaçamento adicional -->
+                
                 <h2>3. Atualização dos Indicadores:</h2>
                 <ul>
                     <li>Após o Presidente responder a todas as perguntas, os efeitos das respostas são aplicados nos indicadores:</li>
                     <ul>
-                        <li>Melhoras ou quedas em Economia, Pessoas, Mídia, Reputação Local ou Reputação Internacional.</li>
+                        <li>Melhoras ou quedas em Economia, Pessoas, Mídia, Vontade Geral ou Reputação Internacional.</li>
                         <li>As consequências são baseadas nas escolhas feitas e no alinhamento dos interesses do jogador que fez a pergunta.</li>
                     </ul>
                 </ul>
+                
+                <br> <!-- Espaçamento adicional -->
                 
                 <h2>Condições de Vitória e Derrota</h2>
                 <h2>Presidente:</h2>
@@ -155,11 +167,15 @@
                     <li><strong>Derrota:</strong> Dois indicadores atingem níveis críticos, resultando em impeachment.</li>
                 </ul>
                 
+                <br> <!-- Espaçamento adicional -->
+                
                 <h2>Demais Jogadores:</h2>
                 <ul>
                     <li><strong>Vitória:</strong> Se o Presidente adotar políticas que maximizem seus interesses.</li>
                     <li><strong>Derrota:</strong> Se o Presidente concluir o mandato ignorando suas demandas principais.</li>
                 </ul>
+                
+                <br> <!-- Espaçamento adicional -->
                 
                 <h2>Dicas Estratégicas</h2>
                 <h2>Presidente:</h2>
@@ -167,6 +183,8 @@
                     <li>Equilibre as demandas dos jogadores. Atenda parcialmente todos sem favorecer demais um grupo.</li>
                     <li>Use os poderes especiais apenas quando necessário, pois eles podem causar instabilidade.</li>
                 </ul>
+                
+                <br> <!-- Espaçamento adicional -->
                 
                 <h2>Demais Jogadores:</h2>
                 <ul>
@@ -220,9 +238,9 @@
                     <span class="progress-value" id="reputacaoMidiaValue">50</span>
                 </div>
                 <div class="status-bar">
-                    <label><i class="fas fa-city"></i> Reputação Local</label>
-                    <progress id="reputacaoLocal" value="50" max="100"></progress>
-                    <span class="progress-value" id="reputacaoLocalValue">50</span>
+                    <label><i class="fas fa-city"></i> Vontade Geral</label>
+                    <progress id="vontadeGeral" value="50" max="100"></progress>
+                    <span class="progress-value" id="vontadeGeralValue">50</span>
                 </div>
             </div>
 
@@ -254,23 +272,23 @@
                 <div class="feedback-bars">
                     <div class="feedback-bar">
                         <span>População:</span>
-                        <span id="popChange"></span>
+                        <span id="popChange">+0</span>
                     </div>
                     <div class="feedback-bar">
                         <span>Economia:</span>
-                        <span id="econChange"></span>
+                        <span id="econChange">+0</span>
                     </div>
                     <div class="feedback-bar">
                         <span>Internacional:</span>
-                        <span id="repInternacionalChange"></span>
+                        <span id="repInternacionalChange">+0</span>
                     </div>
                     <div class="feedback-bar">
                         <span>Reputação (Mídia):</span>
-                        <span id="repMidiaChange"></span>
+                        <span id="repMidiaChange">+0</span>
                     </div>
                     <div class="feedback-bar">
-                        <span>Reputação Local:</span>
-                        <span id="repLocalChange"></span>
+                        <span>Vontade Geral:</span>
+                        <span id="repLocalChange">+0</span>
                     </div>
                 </div>
             </div>
@@ -284,7 +302,7 @@
                     <button id="showEventHistory">Histórico de Eventos</button>
                 </div>
                 <!-- Histórico de Decisões -->
-                <div id="decisionHistory" class="history-content">
+                <div id="decisionHistory" class="history-content active">
                     <h3>Perguntas</h3>
                     <ul id="historyList">
                         <!-- Itens do histórico de perguntas serão adicionados aqui -->
@@ -312,7 +330,6 @@
         <div class="end-game" style="display: none;">
             <h2>Fim do Mandato</h2>
             <div id="endMessage"></div>
-            <img id="endImage" src="" alt="Fim do Jogo" class="end-image">
             <button id="restartButton">Reiniciar Jogo</button>
         </div>
     </div>

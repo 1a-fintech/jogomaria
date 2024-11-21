@@ -7,7 +7,7 @@ let populacao = 50;
 let economia = 50;
 let reputacaoInternacional = 50;
 let reputacaoMidia = 50;
-let reputacaoLocal = 50;
+let vontadeGeral = 50;
 let score = 0;
 let perguntasUsadas = {
     "Cidadão Pobre": [],
@@ -44,13 +44,13 @@ const populacaoBar = document.getElementById('populacao');
 const economiaBar = document.getElementById('economia');
 const reputacaoInternacionalBar = document.getElementById('reputacaoInternacional');
 const reputacaoMidiaBar = document.getElementById('reputacaoMidia');
-const reputacaoLocalBar = document.getElementById('reputacaoLocal');
+const vontadeGeralBar = document.getElementById('vontadeGeral');
 
 const populacaoValue = document.getElementById('populacaoValue');
 const economiaValue = document.getElementById('economiaValue');
 const reputacaoInternacionalValue = document.getElementById('reputacaoInternacionalValue');
 const reputacaoMidiaValue = document.getElementById('reputacaoMidiaValue');
-const reputacaoLocalValue = document.getElementById('reputacaoLocalValue');
+const vontadeGeralValue = document.getElementById('vontadeGeralValue');
 
 const feedbackSection = document.getElementById('feedback');
 const feedbackMessage = document.getElementById('feedbackMessage');
@@ -58,7 +58,7 @@ const popChange = document.getElementById('popChange');
 const econChange = document.getElementById('econChange');
 const repInternacionalChange = document.getElementById('repInternacionalChange');
 const repMidiaChange = document.getElementById('repMidiaChange');
-const repLocalChange = document.getElementById('repLocalChange');
+const repLocalChange = document.getElementById('repLocalChange'); // Renomeado para vontadeGeralChange
 
 const scoreDisplay = document.getElementById('score');
 
@@ -289,6 +289,26 @@ closeTutorialModalButton.addEventListener('click', () => {
     console.log("Fechando tutorial.");
 });
 
+// Event Listener para Abrir o Modal de Dificuldade
+difficultyInfoButton.addEventListener('click', () => {
+    difficultyModal.style.display = 'block';
+    console.log("Abrindo modal de dificuldade.");
+});
+
+// Event Listener para Fechar o Modal de Dificuldade
+closeDifficultyModalButton.addEventListener('click', () => {
+    difficultyModal.style.display = 'none';
+    console.log("Fechando modal de dificuldade.");
+});
+
+// Fechar o Modal de Dificuldade ao Clicar Fora do Conteúdo
+window.addEventListener('click', (event) => {
+    if (event.target == difficultyModal) {
+        difficultyModal.style.display = 'none';
+        console.log("Fechando modal de dificuldade ao clicar fora.");
+    }
+});
+
 // Iniciar Rodada
 function iniciarRodada() {
     if (rodadaAtual > totalRodadas) {
@@ -510,14 +530,14 @@ function atualizarBarras() {
     economiaBar.value = economia;
     reputacaoInternacionalBar.value = reputacaoInternacional;
     reputacaoMidiaBar.value = reputacaoMidia;
-    reputacaoLocalBar.value = reputacaoLocal;
+    vontadeGeralBar.value = vontadeGeral;
 
     populacaoValue.textContent = populacao;
     economiaValue.textContent = economia;
     reputacaoInternacionalValue.textContent = reputacaoInternacional;
     reputacaoMidiaValue.textContent = reputacaoMidia;
-    reputacaoLocalValue.textContent = reputacaoLocal;
-    console.log("Barras de status atualizadas:", { populacao, economia, reputacaoInternacional, reputacaoMidia, reputacaoLocal });
+    vontadeGeralValue.textContent = vontadeGeral;
+    console.log("Barras de status atualizadas:", { populacao, economia, reputacaoInternacional, reputacaoMidia, vontadeGeral });
 }
 
 // Atualizar Pontuação
@@ -534,21 +554,21 @@ function aplicarEfeitos(effects, pergunta, resposta, peso) {
         Economia: effects.Economia || 0,
         ReputacaoInternacional: effects.ReputacaoInternacional || 0,
         ReputacaoMidia: effects.ReputacaoMidia || 0,
-        ReputacaoLocal: effects.ReputacaoLocal || 0
+        VontadeGeral: effects.VontadeGeral || 0
     };
 
     populacao += efeitosAplicados.Populacao;
     economia += efeitosAplicados.Economia;
     reputacaoInternacional += efeitosAplicados.ReputacaoInternacional;
     reputacaoMidia += efeitosAplicados.ReputacaoMidia;
-    reputacaoLocal += efeitosAplicados.ReputacaoLocal;
+    vontadeGeral += efeitosAplicados.VontadeGeral;
 
     // Limitar os valores entre 0 e 100
     populacao = Math.max(0, Math.min(100, populacao));
     economia = Math.max(0, Math.min(100, economia));
     reputacaoInternacional = Math.max(0, Math.min(100, reputacaoInternacional));
     reputacaoMidia = Math.max(0, Math.min(100, reputacaoMidia));
-    reputacaoLocal = Math.max(0, Math.min(100, reputacaoLocal));
+    vontadeGeral = Math.max(0, Math.min(100, vontadeGeral));
 
     atualizarBarras();
     atualizarPontuacao(efeitosAplicados, peso);
@@ -569,9 +589,9 @@ function atualizarPontuacao(efeitos, peso) {
 
     // Penalidade por desbalanceamento (opcional)
     const balancePenalty = Math.abs(populacao - economia) + Math.abs(populacao - reputacaoInternacional) + Math.abs(populacao - reputacaoMidia) +
-                            Math.abs(populacao - reputacaoLocal) + Math.abs(economia - reputacaoInternacional) + Math.abs(economia - reputacaoMidia) +
-                            Math.abs(economia - reputacaoLocal) + Math.abs(reputacaoInternacional - reputacaoMidia) +
-                            Math.abs(reputacaoInternacional - reputacaoLocal) + Math.abs(reputacaoMidia - reputacaoLocal);
+                            Math.abs(populacao - vontadeGeral) + Math.abs(economia - reputacaoInternacional) + Math.abs(economia - reputacaoMidia) +
+                            Math.abs(economia - vontadeGeral) + Math.abs(reputacaoInternacional - reputacaoMidia) +
+                            Math.abs(reputacaoInternacional - vontadeGeral) + Math.abs(reputacaoMidia - vontadeGeral);
     const maxBalancePenalty = 1000;
     const balanceBonus = Math.floor(((maxBalancePenalty - balancePenalty) / maxBalancePenalty) * 20);
     roundScore += balanceBonus;
@@ -590,7 +610,7 @@ function mostrarFeedback(effects) {
     econChange.textContent = `${effects.Economia >=0 ? '+' : ''}${effects.Economia}`;
     repInternacionalChange.textContent = `${effects.ReputacaoInternacional >=0 ? '+' : ''}${effects.ReputacaoInternacional}`;
     repMidiaChange.textContent = `${effects.ReputacaoMidia >=0 ? '+' : ''}${effects.ReputacaoMidia}`;
-    repLocalChange.textContent = `${effects.ReputacaoLocal >=0 ? '+' : ''}${effects.ReputacaoLocal}`;
+    repLocalChange.textContent = `${effects.VontadeGeral >=0 ? '+' : ''}${effects.VontadeGeral}`;
 
     popChange.classList.remove('positive', 'negative');
     econChange.classList.remove('positive', 'negative');
@@ -602,7 +622,7 @@ function mostrarFeedback(effects) {
     econChange.classList.add(effects.Economia >= 0 ? 'positive' : 'negative');
     repInternacionalChange.classList.add(effects.ReputacaoInternacional >= 0 ? 'positive' : 'negative');
     repMidiaChange.classList.add(effects.ReputacaoMidia >= 0 ? 'positive' : 'negative');
-    repLocalChange.classList.add(effects.ReputacaoLocal >= 0 ? 'positive' : 'negative');
+    repLocalChange.classList.add(effects.VontadeGeral >= 0 ? 'positive' : 'negative');
 
     feedbackSection.style.display = 'block';
     console.log("Feedback exibido:", effects);
@@ -627,7 +647,7 @@ function atualizarHistorico(pergunta, resposta, efeitos) {
                 Economia <span class="${efeitos.Economia >= 0 ? 'positive' : 'negative'}">${efeitos.Economia >=0 ? '+' : ''}${efeitos.Economia}</span>, 
                 Internacional <span class="${efeitos.ReputacaoInternacional >= 0 ? 'positive' : 'negative'}">${efeitos.ReputacaoInternacional >=0 ? '+' : ''}${efeitos.ReputacaoInternacional}</span>, 
                 Reputação (Mídia) <span class="${efeitos.ReputacaoMidia >= 0 ? 'positive' : 'negative'}">${efeitos.ReputacaoMidia >=0 ? '+' : ''}${efeitos.ReputacaoMidia}</span>, 
-                Reputação Local <span class="${efeitos.ReputacaoLocal >= 0 ? 'positive' : 'negative'}">${efeitos.ReputacaoLocal >=0 ? '+' : ''}${efeitos.ReputacaoLocal}</span>`;
+                Vontade Geral <span class="${efeitos.VontadeGeral >= 0 ? 'positive' : 'negative'}">${efeitos.VontadeGeral >=0 ? '+' : ''}${efeitos.VontadeGeral}</span>`;
             item.innerHTML += `<div class="impact">${impactoTexto}</div>`;
             console.log(`Impacto atualizado no histórico para a pergunta: ${pergunta.texto}`);
             break;
@@ -668,9 +688,9 @@ function iniciarGraficos() {
                     fill: false
                 },
                 {
-                    label: 'Reputação Local',
-                    data: [reputacaoLocal],
-                    borderColor: '#9b59b6',
+                    label: 'Vontade Geral',
+                    data: [vontadeGeral],
+                    borderColor: '#e67e22',
                     fill: false
                 }
             ]
@@ -711,8 +731,8 @@ function atualizarGraficos(effects) {
                 case 'Reputação (Mídia)':
                     dataset.data.push(reputacaoMidia);
                     break;
-                case 'Reputação Local':
-                    dataset.data.push(reputacaoLocal);
+                case 'Vontade Geral':
+                    dataset.data.push(vontadeGeral);
                     break;
             }
         });
@@ -746,13 +766,13 @@ function finalizarJogo(impeach = false) {
     }
 
     if (rodadaAtual > totalRodadas) {
-        const maxValor = Math.max(populacao, economia, reputacaoInternacional, reputacaoMidia, reputacaoLocal);
+        const maxValor = Math.max(populacao, economia, reputacaoInternacional, reputacaoMidia, vontadeGeral);
         const resultados = [];
         if (populacao === maxValor) resultados.push("População no topo");
         if (economia === maxValor) resultados.push("Economia no topo");
         if (reputacaoInternacional === maxValor) resultados.push("Internacional no topo");
         if (reputacaoMidia === maxValor) resultados.push("Reputação Mídia no topo");
-        if (reputacaoLocal === maxValor) resultados.push("Reputação Local no topo");
+        if (vontadeGeral === maxValor) resultados.push("Vontade Geral no topo");
 
         let mensagem = "";
         let finalClass = "";
@@ -767,39 +787,39 @@ function finalizarJogo(impeach = false) {
                     break;
                 case "Economia no topo":
                     mensagem = "O presidente é celebrado por garantir uma economia forte e estável, atraindo investidores e promovendo o crescimento. No entanto, algumas desigualdades sociais ainda precisam ser resolvidas.";
-                    imagemFinal = "imagens/estabilidade.png";
+                    imagemFinal = "imagens/estavel.png";
                     finalClass = "end-estabilidade";
                     break;
                 case "Internacional no topo":
                     mensagem = "As relações internacionais estão fortalecidas, elevando a reputação global do governo. No entanto, desafios internos ainda persistem.";
-                    imagemFinal = "imagens/estabilidade.png";
+                    imagemFinal = "imagens/estavel.png";
                     finalClass = "end-estabilidade";
                     break;
                 case "Reputação Mídia no topo":
                     mensagem = "A transparência e a liberdade de imprensa estão no auge, tornando o governo muito popular entre jornalistas e a opinião pública. No entanto, o crescimento econômico e os serviços públicos sofrem com falta de recursos.";
-                    imagemFinal = "imagens/estabilidade.png";
+                    imagemFinal = "imagens/estavel.png";
                     finalClass = "end-estabilidade";
                     break;
-                case "Reputação Local no topo":
-                    mensagem = "A reputação local do governo está em alta, refletindo a aprovação das administrações municipais e regionais. Contudo, aspectos econômicos e de infraestrutura precisam de atenção.";
-                    imagemFinal = "imagens/estabilidade.png";
+                case "Vontade Geral no topo":
+                    mensagem = "O presidente seguiu os ideais de Rousseau com maestria, priorizando o bem comum e a vontade geral. A sociedade está harmoniosa e os indicadores refletem um governo equilibrado.";
+                    imagemFinal = "imagens/estavel.png";
                     finalClass = "end-estabilidade";
                     break;
             }
         } else {
-            mensagem = "O governo terminou seu mandato com um equilíbrio razoável entre População, Economia, Internacional, Reputação Mídia e Reputação Local, resultando em um <strong>Governo Estável</strong>.";
-            imagemFinal = "imagens/estabilidade.png";
+            mensagem = "O governo terminou seu mandato com um equilíbrio razoável entre População, Economia, Internacional, Reputação Mídia e Vontade Geral, resultando em um <strong>Governo Estável</strong>.";
+            imagemFinal = "imagens/estavel.png";
             finalClass = "end-estabilidade";
         }
 
         // Verificar equilíbrio total
         if (Math.abs(populacao - economia) <= 10 && Math.abs(populacao - reputacaoInternacional) <= 10 &&
-            Math.abs(populacao - reputacaoMidia) <= 10 && Math.abs(populacao - reputacaoLocal) <= 10 &&
+            Math.abs(populacao - reputacaoMidia) <= 10 && Math.abs(populacao - vontadeGeral) <= 10 &&
             Math.abs(economia - reputacaoInternacional) <= 10 && Math.abs(economia - reputacaoMidia) <= 10 &&
-            Math.abs(economia - reputacaoLocal) <= 10 && Math.abs(reputacaoInternacional - reputacaoMidia) <= 10 &&
-            Math.abs(reputacaoInternacional - reputacaoLocal) <= 10 && Math.abs(reputacaoMidia - reputacaoLocal) <= 10) {
+            Math.abs(economia - vontadeGeral) <= 10 && Math.abs(reputacaoInternacional - reputacaoMidia) <= 10 &&
+            Math.abs(reputacaoInternacional - vontadeGeral) <= 10 && Math.abs(reputacaoMidia - vontadeGeral) <= 10) {
             mensagem = "O presidente conseguiu terminar seu mandato com todas as barras em equilíbrio, garantindo um <strong>Governo Estável</strong> e equilibrado. Não houve grandes conquistas, mas o país permaneceu em paz e sem crises.";
-            imagemFinal = "imagens/estabilidade.png";
+            imagemFinal = "/imagens/estavel.png";
             finalClass = "end-estabilidade";
         }
 
@@ -884,7 +904,7 @@ function iniciarEventosAleatorios() {
 // Verificar Se Há Motivos para Impeachment
 function verificarImpeachment() {
     // Verificar se dois ou mais indicadores estão críticos para iniciar impeachment
-    const indicadoresCriticos = ['populacao', 'economia', 'reputacaoInternacional', 'reputacaoMidia', 'reputacaoLocal'].filter(indicador => {
+    const indicadoresCriticos = ['populacao', 'economia', 'reputacaoInternacional', 'reputacaoMidia', 'vontadeGeral'].filter(indicador => {
         return window[indicador] <= 20;
     });
 
@@ -914,7 +934,7 @@ function adicionarEventoAoHistorico(evento, efeitos) {
         Economia <span class="${efeitos.Economia >= 0 ? 'positive' : 'negative'}">${efeitos.Economia >=0 ? '+' : ''}${efeitos.Economia}</span>, 
         Internacional <span class="${efeitos.ReputacaoInternacional >= 0 ? 'positive' : 'negative'}">${efeitos.ReputacaoInternacional >=0 ? '+' : ''}${efeitos.ReputacaoInternacional}</span>, 
         Reputação (Mídia) <span class="${efeitos.ReputacaoMidia >= 0 ? 'positive' : 'negative'}">${efeitos.ReputacaoMidia >=0 ? '+' : ''}${efeitos.ReputacaoMidia}</span>, 
-        Reputação Local <span class="${efeitos.ReputacaoLocal >= 0 ? 'positive' : 'negative'}">${efeitos.ReputacaoLocal >=0 ? '+' : ''}${efeitos.ReputacaoLocal}</span>`;
+        Vontade Geral <span class="${efeitos.VontadeGeral >= 0 ? 'positive' : 'negative'}">${efeitos.VontadeGeral >=0 ? '+' : ''}${efeitos.VontadeGeral}</span>`;
     const li = document.createElement('li');
     li.innerHTML = `<div class="decision">${evento.descricao}</div><div class="impact">${impactoTexto}</div>`;
     eventHistoryList.prepend(li);
@@ -929,7 +949,7 @@ restartButton.addEventListener('click', () => {
     economia = 50;
     reputacaoInternacional = 50;
     reputacaoMidia = 50;
-    reputacaoLocal = 50;
+    vontadeGeral = 50;
     score = 0;
     perguntasUsadas = {
         "Cidadão Pobre": [],
@@ -949,7 +969,7 @@ restartButton.addEventListener('click', () => {
     econChange.textContent = "+0";
     repInternacionalChange.textContent = "+0";
     repMidiaChange.textContent = "+0";
-    repLocalChange.textContent = "+0";
+    repLocalChange.textContent = "+0"; // Renomeado para vontadeGeralChange
 
     endGameArea.classList.remove('end-estabilidade', 'end-heroe', 'end-impeachment');
 
@@ -982,4 +1002,28 @@ window.addEventListener('load', () => {
     roleDescriptionModal.style.display = 'none';
     tutorialModal.style.display = 'none';
     console.log("Página carregada e inicializada.");
+});
+
+// Seletores para os botões de histórico
+const showDecisionHistoryButton = document.getElementById('showDecisionHistory');
+const showEventHistoryButton = document.getElementById('showEventHistory');
+const decisionHistory = document.getElementById('decisionHistory');
+const eventHistory = document.getElementById('eventHistory');
+
+// Função para exibir o histórico de decisões
+showDecisionHistoryButton.addEventListener('click', () => {
+    decisionHistory.style.display = 'block';
+    eventHistory.style.display = 'none';
+    decisionHistory.classList.add('active');
+    eventHistory.classList.remove('active');
+    console.log("Exibindo Histórico de Decisões.");
+});
+
+// Função para exibir o histórico de eventos
+showEventHistoryButton.addEventListener('click', () => {
+    decisionHistory.style.display = 'none';
+    eventHistory.style.display = 'block';
+    eventHistory.classList.add('active');
+    decisionHistory.classList.remove('active');
+    console.log("Exibindo Histórico de Eventos.");
 });
